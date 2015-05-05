@@ -43,7 +43,7 @@ RDEPEND="app-arch/unzip
 	mtp? ( media-libs/libmtp )
 	pulseaudio? ( >=media-sound/pulseaudio-0.9.3 )
 	scrobbler? ( net-misc/curl )
-	sdl? ( media-libs/libsdl[audio] )
+	sdl? ( media-libs/libsdl )
 	sid? ( >=media-libs/libsidplay-2.1.1-r2 )
 	sndfile? ( >=media-libs/libsndfile-1.0.17-r1 )
 	vorbis? ( >=media-libs/libvorbis-1.2.0
