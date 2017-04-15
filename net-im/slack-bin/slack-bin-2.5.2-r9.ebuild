@@ -28,7 +28,6 @@ RDEPEND="dev-libs/atk:0
 	media-libs/freetype:2
 	net-misc/curl:0
 	net-print/cups:0
-	sys-apps/dbus:0
 	x11-libs/cairo:0
 	x11-libs/gdk-pixbuf:2
 	x11-libs/gtk+:2

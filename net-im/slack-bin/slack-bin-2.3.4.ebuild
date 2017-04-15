@@ -23,6 +23,7 @@ RDEPEND="dev-libs/atk:0
 	dev-libs/nspr:0
 	dev-libs/nss:0
 	gnome-base/gconf:2
+	gnome-base/libgnome-keyring:0
 	media-libs/alsa-lib:0
 	media-libs/fontconfig:1.0
 	media-libs/freetype:2
@@ -39,7 +40,6 @@ RDEPEND="dev-libs/atk:0
 	x11-libs/libXext:0
 	x11-libs/libXfixes:0
 	x11-libs/libXi:0
-	x11-libs/libxkbfile:0
 	x11-libs/libXrandr:0
 	x11-libs/libXrender:0
 	x11-libs/libXScrnSaver:0
@@ -49,6 +49,7 @@ RDEPEND="dev-libs/atk:0
 QA_PREBUILT="opt/slack/slack
 	opt/slack/resources/app.asar.unpacked/node_modules/*
 	opt/slack/libnode.so
+	opt/slack/libgcrypt.so.11
 	opt/slack/libffmpeg.so
 	opt/slack/libCallsCore.so"
 

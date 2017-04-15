@@ -39,7 +39,6 @@ RDEPEND="dev-libs/atk:0
 	x11-libs/libXext:0
 	x11-libs/libXfixes:0
 	x11-libs/libXi:0
-	x11-libs/libxkbfile:0
 	x11-libs/libXrandr:0
 	x11-libs/libXrender:0
 	x11-libs/libXScrnSaver:0
