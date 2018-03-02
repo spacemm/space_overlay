@@ -1,19 +1,20 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit eutils fdo-mime gnome2-utils pax-utils unpacker
+inherit eutils xdg-utils gnome2-utils pax-utils unpacker
 
 DESCRIPTION="Spotify is a social music platform"
 HOMEPAGE="https://www.spotify.com/ch-de/download/previews/"
-BUILD_ID="401.g9d720389"
-SRC_BASE="http://repository.spotify.com/pool/non-free/${PN:0:1}/${PN}-client/"
-SRC_URI="amd64? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID}-21_amd64.deb )
-	x86? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID}-21_i386.deb )"
+BUILD_ID_AMD64="117.g6bd7cc73-35"
+BUILD_ID_X86="117.g6bd7cc73-35"
+SRC_BASE="http://repository.spotify.com/pool/non-free/s/${PN}-client/"
+SRC_URI="amd64? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_AMD64}_amd64.deb )
+	x86? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_X86}_i386.deb )"
 LICENSE="Spotify"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="gnome pax_kernel pulseaudio"
+KEYWORDS="amd64 x86"
+IUSE="libnotify systray pax_kernel pulseaudio"
 RESTRICT="mirror strip"
 
 DEPEND=""
@@ -32,8 +33,9 @@ RDEPEND="
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
 	dev-python/pygobject:3
+	libnotify? ( x11-libs/libnotify )
 	pulseaudio? ( media-sound/pulseaudio )
-	gnome? ( gnome-extra/gnome-integration-spotify )"
+	systray? ( gnome-extra/gnome-integration-spotify )"
 	#sys-libs/glibc
 
 S=${WORKDIR}/
@@ -41,8 +43,8 @@ S=${WORKDIR}/
 QA_PREBUILT="opt/spotify/spotify-client/spotify"
 
 src_prepare() {
-	# Fix desktop entry to launch spotify-dbus.py for GNOME integration
-	if use gnome ; then
+	# Fix desktop entry to launch spotify-dbus.py for systray integration
+	if use systray ; then
 		sed -i \
 			-e 's/spotify \%U/spotify-dbus.py \%U/g' \
 			usr/share/spotify/spotify.desktop || die "sed failed"
@@ -95,8 +97,8 @@ pkg_preinst() {
 
 pkg_postinst() {
 	gnome2_icon_cache_update
-	fdo-mime_mime_database_update
-	fdo-mime_desktop_database_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 
 	ewarn "If Spotify crashes after an upgrade its cache may be corrupt."
 	ewarn "To remove the cache:"
@@ -110,6 +112,6 @@ pkg_postinst() {
 
 pkg_postrm() {
 	gnome2_icon_cache_update
-	fdo-mime_mime_database_update
-	fdo-mime_desktop_database_update
+	xdg_mimeinfo_database_update
+	xdg_desktop_database_update
 }

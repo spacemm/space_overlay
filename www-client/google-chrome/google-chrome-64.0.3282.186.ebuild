@@ -1,6 +1,5 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI="6"
 
@@ -25,7 +24,7 @@ SRC_URI="https://dl.google.com/linux/chrome/deb/pool/main/g/${MY_PN}/${MY_P}_amd
 
 LICENSE="google-chrome"
 SLOT="0"
-KEYWORDS="-* ~amd64"
+KEYWORDS="-* amd64"
 IUSE="+plugins"
 RESTRICT="bindist mirror strip"
 
@@ -33,10 +32,11 @@ DEPEND=""
 RDEPEND="
 	app-arch/bzip2
 	app-misc/ca-certificates
+	dev-libs/atk
 	dev-libs/expat
 	dev-libs/glib:2
 	dev-libs/nspr
-	dev-libs/nss
+	>=dev-libs/nss-3.26
 	gnome-base/gconf:2
 	media-libs/alsa-lib
 	media-libs/fontconfig
@@ -45,7 +45,6 @@ RDEPEND="
 	sys-libs/libcap
 	x11-libs/cairo
 	x11-libs/gdk-pixbuf:2
-	x11-libs/gtk+:2
 	>=x11-libs/libX11-1.5.0
 	x11-libs/libXcomposite
 	x11-libs/libXcursor
@@ -57,11 +56,13 @@ RDEPEND="
 	x11-libs/libXrender
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
+	x11-libs/libxcb
 	x11-libs/pango
 	x11-misc/xdg-utils
 "
 
 QA_PREBUILT="*"
+QA_DESKTOP_FILE="usr/share/applications/google-chrome.*\\.desktop"
 S=${WORKDIR}
 CHROME_HOME="opt/google/chrome${PN#google-chrome}"
 
@@ -85,7 +86,7 @@ to install additional packages to get icons on the Downloads page.
 For KDE, the required package is kde-frameworks/oxygen-icons.
 
 For other desktop environments, try one of the following:
-- x11-themes/gnome-icon-theme
+- x11-themes/adwaita-icon-theme
 - x11-themes/tango-icon-theme
 
 Please notice the bundled flash player (PepperFlash).
@@ -105,8 +106,16 @@ pkg_setup() {
 	chromium_suid_sandbox_check_kernel_config
 }
 
+src_unpack() {
+	:
+}
+
 src_install() {
-	rm -r usr/share/menu || die
+	dodir /
+	cd "${ED}" || die
+	unpacker
+
+	rm -r etc usr/share/menu || die
 	mv usr/share/doc/${MY_PN} usr/share/doc/${PF} || die
 
 	pushd "${CHROME_HOME}/locales" > /dev/null || die
@@ -124,14 +133,7 @@ src_install() {
 		newicon -s ${size} "${CHROME_HOME}/product_logo_${size}.png" ${PN}.png
 	done
 
-	insinto /
-	doins -r opt usr
-	dosym "/${CHROME_HOME}/${PN}" "/usr/bin/${MY_PN}"
-
-	find "${ED}" -type d -empty -delete || die
-	chmod 755 "${ED}${CHROME_HOME}"/{chrome,${PN},nacl_helper{,_bootstrap},xdg-{mime,settings}} || die
-	chmod 4755 "${ED}${CHROME_HOME}/chrome-sandbox" || die
-	pax-mark m "${ED}${CHROME_HOME}/chrome"
+	pax-mark m "${CHROME_HOME}/chrome"
 
 	readme.gentoo_create_doc
 }
