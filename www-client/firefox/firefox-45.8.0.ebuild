@@ -127,7 +127,8 @@ src_unpack() {
 }
 
 src_prepare() {
-	# Apply our patches
+	## Apply our patches
+	epatch "${FILESDIR}"/missingheader.patch
 	eapply "${WORKDIR}/firefox"
 
 	# Allow user to apply any additional patches without modifing ebuild
