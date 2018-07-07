@@ -6,28 +6,29 @@ inherit eutils xdg-utils gnome2-utils pax-utils unpacker
 
 DESCRIPTION="Spotify is a social music platform"
 HOMEPAGE="https://www.spotify.com/ch-de/download/previews/"
-BUILD_ID_AMD64="117.g6bd7cc73-35"
-BUILD_ID_X86="117.g6bd7cc73-35"
 SRC_BASE="http://repository.spotify.com/pool/non-free/s/${PN}-client/"
-SRC_URI="amd64? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_AMD64}_amd64.deb )
-	x86? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_X86}_i386.deb )"
+BUILD_ID_AMD64="480.g51b03ac3-13"
+#BUILD_ID_X86=""
+#SRC_URI="amd64? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_AMD64}_amd64.deb )
+#	x86? ( ${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_X86}_i386.deb )"
+SRC_URI="${SRC_BASE}${PN}-client_${PV}.${BUILD_ID_AMD64}_amd64.deb"
 LICENSE="Spotify"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64"
 IUSE="libnotify systray pax_kernel pulseaudio"
 RESTRICT="mirror strip"
 
-DEPEND=""
+DEPEND=">=dev-util/patchelf-0.9_p20180129"
 # zenety needed for filepicker
 RDEPEND="
-	${DEPEND}
+	dev-libs/openssl:0
 	dev-libs/nss
 	gnome-base/gconf
 	media-libs/alsa-lib
 	media-libs/harfbuzz
 	media-libs/fontconfig
 	media-libs/mesa
-	net-misc/curl[ssl,curl_ssl_openssl]
+	net-misc/curl[ssl]
 	net-print/cups[ssl]
 	x11-libs/gtk+:2
 	x11-libs/libXScrnSaver
@@ -50,6 +51,10 @@ src_prepare() {
 			usr/share/spotify/spotify.desktop || die "sed failed"
 	fi
 	default
+
+	# Spotify links against libcurl-gnutls.so.4, which does not exist in Gentoo.
+	patchelf --replace-needed libcurl-gnutls.so.4 libcurl.so.4 usr/bin/spotify \
+		|| die "failed to patch libcurl library dependency"
 }
 
 src_install() {

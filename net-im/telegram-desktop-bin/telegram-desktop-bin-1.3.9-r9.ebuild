@@ -22,7 +22,6 @@ QA_PREBUILT="usr/bin/telegram-desktop"
 RDEPEND="
 	dev-libs/glib:2
 	dev-libs/gobject-introspection
-	>=sys-apps/dbus-1.4.20
 	x11-libs/libX11
 	>=x11-libs/libxcb-1.10[xkb]
 "

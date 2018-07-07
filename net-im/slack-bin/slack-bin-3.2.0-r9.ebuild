@@ -9,7 +9,7 @@ inherit eutils gnome2-utils unpacker
 
 DESCRIPTION="Team collaboration tool"
 HOMEPAGE="http://www.slack.com/"
-SRC_URI="https://downloads.slack-edge.com/linux_releases/${MY_PN}-desktop-${PV}-amd64.deb"
+SRC_URI="https://downloads.slack-edge.com/linux_releases/${MY_PN}-desktop-${PV}-beta25a7a50e-amd64.deb"
 
 LICENSE="no-source-code"
 SLOT="0"
@@ -28,7 +28,6 @@ RDEPEND="dev-libs/atk:0
 	media-libs/freetype:2
 	net-misc/curl:0
 	net-print/cups:0
-	sys-apps/dbus:0
 	x11-libs/cairo:0
 	x11-libs/gdk-pixbuf:2
 	x11-libs/gtk+:2
