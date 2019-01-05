@@ -8,7 +8,7 @@ DESCRIPTION="CLI tool that pipes video streams from services like twitch.tv into
 HOMEPAGE="https://github.com/chrippa/livestreamer"
 SRC_URI="https://github.com/chrippa/livestreamer/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
-PYTHON_COMPAT=( python{2_7,3_6} )
+PYTHON_COMPAT=( python{2_7,3_6,3_7} )
 inherit distutils-r1
 
 KEYWORDS="amd64 ~mips ~x86"
